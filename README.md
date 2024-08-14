@@ -1,30 +1,39 @@
 
-### 1. **Importing Required Modules**:
-   - `express`: The code begins by importing the Express library, which is a web framework for Node.js that simplifies the process of building web servers and APIs.
-   - `students`: The `students` module is imported from a separate file (`./student`). This module contains an array of student objects.
+### 1. Importing Required Modules:
+- The code begins by importing the `express` module, which is used to create the API server. It also imports a `students` array from an external file (likely the same file since it's defined at the end of this snippet).
 
-### 2. **Setting Up the Express Application**:
-   - The `app` variable is initialized by calling `express()`. This creates an instance of an Express application.
-   - The middleware `express.json()` is used to parse incoming JSON requests, allowing the server to handle JSON data in requests.
+### 2. Creating the Express Application:
+- An Express application (`app`) is created by calling `express()`.
+- The `express.json()` middleware is used, allowing the API to parse incoming JSON requests, making it easier to work with JSON data in the request bodies.
 
-### 3. **Starting the Server**:
-   - The `app.listen` function starts the server, listening on port 4000. When the server successfully starts, it logs "Server was run" to the console.
+### 3. Starting the Server:
+- The server is set to listen on port `4000`. When the server starts successfully, it logs a message to the console.
 
-### 4. **Defining Routes**:
-   - **Root Route (`/`)**: 
-     - The `app.get('/')` route responds to GET requests at the root URL with a JSON object that includes a message: `{"message": "API is working"}`.
-   - **GET `/api/students` Route**:
-     - The `app.get('/api/students')` route responds to GET requests to `/api/students` by returning the full list of students as a JSON object.
-   - **POST `/api/students` Route**:
-     - The `app.post('/api/students')` route handles POST requests to `/api/students`.
-     - The request body is expected to contain student information, particularly an email field.
-     - If the `email` field is missing from the request body, the server responds with a 400 status code and an error message: `{"Error": "API is not working"}`.
-     - If the `email` is present, a new student object is created with the provided details and an auto-incremented `id`.
-     - The new student object is added to the `students` array and returned as a JSON response.
+### 4. Defining Routes:
+- **Root Route (`GET /`)**:
+  - When the root URL (`/`) is accessed, it returns a JSON response with a message saying "API is working".
 
-### 5. **The `students` Array**:
-   - The `students` array contains a list of student objects, each with an `id`, `first_name`, `last_name`, `email`, `gender`, and `ip_address`.
-   - This array serves as a simple data store for the API, simulating a database.
+- **Get All Students (`GET /api/students`)**:
+  - This route returns a JSON response containing the entire `students` array, essentially listing all students.
 
-### 6. **Exporting the `students` Array**:
-   - The `students` array is exported using `module.exports`, making it available to be imported and used in other files (such as in the main server file).
+- **Add a New Student (`POST /api/students`)**:
+  - This route handles the creation of a new student. 
+  - It checks if the `email` field is provided in the request body. If not, it sends a 400 status code with an error message.
+  - If the `email` is provided, a new student object is created with the provided data, assigned an `id`, and added to the `students` array. The new student object is then returned in the response.
+
+- **Update an Existing Student (`PUT /api/students/:id`)**:
+  - This route updates a student's information based on their `id`.
+  - It extracts the `id` from the URL parameters and finds the corresponding student in the `students` array.
+  - If the student exists, their details are updated with the data from the request body, and the updated student object is returned.
+  - If the student with the given `id` does not exist, it returns a 404 status code indicating that the resource was not found.
+
+- **Delete a Student (`DELETE /api/students/:id`)**:
+  - This route deletes a student based on their `id`.
+  - It finds the student in the `students` array using the `id` and removes them from the array if they exist.
+  - The deleted student object is returned in the response. If the student with the given `id` does not exist, it returns a 404 status code.
+
+### 5. Student Data:
+- The `students` array is initialized with 10 student objects, each containing `id`, `first_name`, `last_name`, `email`, `gender`, and `ip_address` properties. This array is the data source for the API.
+
+### 6. Exporting the Students Array:
+- Finally, the `students` array is exported using `module.exports`, which makes it available for use in other files (though it's not necessary in this specific code since it's defined and used in the same file).
